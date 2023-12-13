@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Dice Roll Animation</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f5f5f5;
+      font-family: Arial, sans-serif;
+    }
+
+    #dice {
+      width: 100px;
+      height: 100px;
+      background-color: white;
+      border: solid 1px black;
+      position: relative;
+      perspective: 1000px;
+    }
+
+    #diceFace {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transform-style: preserve-3d;
+      transition: transform 1s;
+    }
+
+    .face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      border: solid 1px black;
+      line-height: 100px;
+      text-align: center;
+      font-size: 40px;
+    }
+
+    #face1 {
+      transform: translateZ(50px);
+    }
+
+    #face2 {
+      transform: rotateY(90deg) translateZ(50px);
+    }
+
+    #face3 {
+      transform: rotateY(180deg) translateZ(50px);
+    }
+
+    #face4 {
+      transform: rotateY(-90deg) translateZ(50px);
+    }
+
+    #face5 {
+      transform: rotateX(90deg) translateZ(50px);
+    }
+
+    #face6 {
+      transform: rotateX(-90deg) translateZ(50px);
+    }
+
+    button {
+      font-size: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      /* Green */
+      border: none;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 30px 2px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="dice">
+    <div id="diceFace">
+      <div id="face1" class="face">1</div>
+      <div id="face2" class="face">2</div>
+      <div id="face3" class="face">3</div>
+      <div id="face4" class="face">4</div>
+      <div id="face5" class="face">5</div>
+      <div id="face6" class="face">6</div>
+    </div>
+  </div>
+  <button id="button" onclick="rollDice()">Roll</button>
+
+  <script>
+    function rollDice() {
+      var diceFace = document.getElementById('diceFace');
+
+      var randomX = Math.floor(Math.random() * 360);
+      var randomY = Math.floor(Math.random() * 360);
+      diceFace.style.transition = 'transform 2s linear';
+      diceFace.style.transform = 'rotateX(' + randomX + 'deg) rotateY(' + randomY + 'deg)';
+
+      setTimeout(function () {
+        diceFace.style.transition = 'transform 2s';
+        diceFace.style.transform = 'rotateX(90deg) rotateY(0deg)';
+      }, 2000);
+    }
+  </script>
+</body>
+
+</html>
