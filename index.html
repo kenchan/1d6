@@ -230,6 +230,82 @@
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
                   inset 0 2px 5px rgba(255, 255, 255, 0.8);
     }
+
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .slider-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slider-label {
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .slider-value {
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 12px;
+      border-radius: 12px;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 250px;
+      height: 8px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.3);
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    input[type="range"]::-moz-range-thumb:hover {
+      transform: scale(1.1);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+    }
   </style>
 </head>
 
@@ -271,21 +347,41 @@
       </div>
     </div>
   </div>
-  <button id="button" onclick="rollDice()">Roll</button>
+
+  <div class="controls">
+    <button id="button" onclick="rollDice()">Roll</button>
+
+    <div class="slider-container">
+      <label class="slider-label">回転スピード</label>
+      <input type="range" id="speedSlider" min="1" max="10" step="0.5" value="3">
+      <div class="slider-value"><span id="speedValue">3.0</span>回転</div>
+    </div>
+  </div>
 
   <script>
-    function rollDice() {
-      var diceFace = document.getElementById('diceFace');
+    const speedSlider = document.getElementById('speedSlider');
+    const speedValue = document.getElementById('speedValue');
 
-      var randomX = Math.floor(Math.random() * 360);
-      var randomY = Math.floor(Math.random() * 360);
-      diceFace.style.transition = 'transform 2s linear';
+    speedSlider.addEventListener('input', function() {
+      speedValue.textContent = parseFloat(this.value).toFixed(1);
+    });
+
+    function rollDice() {
+      const diceFace = document.getElementById('diceFace');
+      const rotations = parseFloat(speedSlider.value);
+      const duration = 2;
+
+      const totalDegrees = rotations * 360;
+      const randomX = Math.floor(Math.random() * totalDegrees);
+      const randomY = Math.floor(Math.random() * totalDegrees);
+
+      diceFace.style.transition = 'transform ' + duration + 's linear';
       diceFace.style.transform = 'rotateX(' + randomX + 'deg) rotateY(' + randomY + 'deg)';
 
       setTimeout(function () {
-        diceFace.style.transition = 'transform 2s';
+        diceFace.style.transition = 'transform ' + duration + 's';
         diceFace.style.transform = 'rotateX(-90deg) rotateY(0deg)';
-      }, 2000);
+      }, duration * 1000);
     }
   </script>
 </body>
