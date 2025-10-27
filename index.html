@@ -4,85 +4,231 @@
 <head>
   <title>Dice Roll Animation</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #f5f5f5;
-      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     #dice {
       width: 200px;
       height: 200px;
-      background-color: white;
-      border: solid 1px black;
       position: relative;
       perspective: 1000px;
+      margin-bottom: 60px;
     }
 
     #diceFace {
-      width: 100%;
-      height: 100%;
-      position: absolute;
+      width: 200px;
+      height: 200px;
+      position: relative;
       transform-style: preserve-3d;
+      transform: rotateX(-25deg) rotateY(-25deg);
       transition: transform 1s;
+      transform-origin: center center;
     }
 
     .face {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: white;
-      border: solid 1px black;
-      line-height: 200px;
-      text-align: center;
-      font-size: 80px;
+      width: 200px;
+      height: 200px;
+      background: linear-gradient(145deg, #ffffff, #e8e8e8);
+      border: 2px solid #d0d0d0;
+      border-radius: 20px;
+      display: grid;
+      padding: 30px;
+      gap: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15),
+                  inset 0 5px 10px rgba(255, 255, 255, 0.8),
+                  inset 0 -5px 10px rgba(0, 0, 0, 0.1);
     }
 
+    .dot {
+      width: 25px;
+      height: 25px;
+      background: radial-gradient(circle, #1a1a1a, #000);
+      border-radius: 50%;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Face 1 - 前面 */
     #face1 {
-      transform: translateZ(100px);
+      transform: rotateY(0deg) translateZ(100px);
+      grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     }
 
+    #face1 .dot {
+      grid-column: 2;
+      grid-row: 2;
+      background: radial-gradient(circle, #e74c3c, #c0392b);
+    }
+
+    /* Face 2 - 右面 */
     #face2 {
       transform: rotateY(90deg) translateZ(100px);
+      grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     }
 
+    #face2 .dot:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    #face2 .dot:nth-child(2) {
+      grid-column: 3;
+      grid-row: 3;
+    }
+
+    /* Face 3 - 背面 */
     #face3 {
       transform: rotateY(180deg) translateZ(100px);
+      grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     }
 
+    #face3 .dot:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    #face3 .dot:nth-child(2) {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    #face3 .dot:nth-child(3) {
+      grid-column: 3;
+      grid-row: 3;
+    }
+
+    /* Face 4 - 左面 */
     #face4 {
-      transform: rotateY(-90deg) translateZ(100px);
+      transform: rotateY(270deg) translateZ(100px);
+      grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     }
 
+    #face4 .dot:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    #face4 .dot:nth-child(2) {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    #face4 .dot:nth-child(3) {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    #face4 .dot:nth-child(4) {
+      grid-column: 3;
+      grid-row: 3;
+    }
+
+    /* Face 5 - 上面 */
     #face5 {
-      transform: rotateX(90deg) translateZ(100px);
+      transform: rotateX(-90deg) translateZ(100px);
+      grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     }
 
+    #face5 .dot:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    #face5 .dot:nth-child(2) {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    #face5 .dot:nth-child(3) {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    #face5 .dot:nth-child(4) {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    #face5 .dot:nth-child(5) {
+      grid-column: 3;
+      grid-row: 3;
+    }
+
+    /* Face 6 - 下面 */
     #face6 {
-      transform: rotateX(-90deg) translateZ(100px);
+      transform: rotateX(90deg) translateZ(100px);
+      grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    }
+
+    #face6 .dot:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    #face6 .dot:nth-child(2) {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    #face6 .dot:nth-child(3) {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    #face6 .dot:nth-child(4) {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    #face6 .dot:nth-child(5) {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    #face6 .dot:nth-child(6) {
+      grid-column: 3;
+      grid-row: 3;
     }
 
     button {
-      font-size: 32px;
-      padding: 20px 40px;
-      background-color: #4CAF50;
-      /* Green */
-      border: none;
-      color: white;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      margin: 40px 2px;
-      transition-duration: 0.4s;
+      font-size: 28px;
+      font-weight: 600;
+      padding: 18px 50px;
+      background: linear-gradient(145deg, #ffffff, #f0f0f0);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50px;
+      color: #667eea;
+      text-transform: uppercase;
+      letter-spacing: 2px;
       cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2),
+                  inset 0 2px 5px rgba(255, 255, 255, 0.8);
     }
 
     button:hover {
-      background-color: #45a049;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3),
+                  inset 0 2px 5px rgba(255, 255, 255, 0.8);
+    }
+
+    button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2),
+                  inset 0 2px 5px rgba(255, 255, 255, 0.8);
     }
   </style>
 </head>
@@ -90,12 +236,39 @@
 <body>
   <div id="dice">
     <div id="diceFace">
-      <div id="face1" class="face">1</div>
-      <div id="face2" class="face">2</div>
-      <div id="face3" class="face">3</div>
-      <div id="face4" class="face">4</div>
-      <div id="face5" class="face">5</div>
-      <div id="face6" class="face">6</div>
+      <div id="face1" class="face">
+        <div class="dot"></div>
+      </div>
+      <div id="face2" class="face">
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div id="face3" class="face">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div id="face4" class="face">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div id="face5" class="face">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div id="face6" class="face">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
     </div>
   </div>
   <button id="button" onclick="rollDice()">Roll</button>
@@ -111,7 +284,7 @@
 
       setTimeout(function () {
         diceFace.style.transition = 'transform 2s';
-        diceFace.style.transform = 'rotateX(90deg) rotateY(0deg)';
+        diceFace.style.transform = 'rotateX(-90deg) rotateY(0deg)';
       }, 2000);
     }
   </script>
